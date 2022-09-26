@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import styles from "./CreateEvent.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 
 const CreateEvent = () => {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [address, setAddress] = useState("");
+
   function handleSubmit(event) {
     event.preventDefault();
     const eventBody = {
@@ -15,12 +17,12 @@ const CreateEvent = () => {
       price: price.target.value,
       address: address.target.value,
     };
-    // navigate("/tickets");
+    navigate("/", { state: eventBody });
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.area}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <Input
           label="Title of the event"
           type="text"

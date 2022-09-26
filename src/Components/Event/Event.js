@@ -1,17 +1,27 @@
 import React from "react";
 import styles from "./Event.module.css";
-import { useParams } from "react-router-dom";
-import Button from "../Forms/Button";
+import { useLocation, useParams } from "react-router-dom";
+import Modal from "../Modal/Modal";
+import Head from "../Helper/Head";
 
 const Event = () => {
-  const { id } = useParams();
-  const { price } = useParams();
+  const { id, price } = useParams();
+  const { state } = useLocation();
+
+  console.log(state);
 
   return (
     <div className={styles.content}>
-      <h1>{id}</h1>
-      <p>R$: {price},00</p>
-      <Button>Buy ticket</Button>
+      <Head title="Event" description="Data of an event" />
+      <Modal
+        modalStyle={false}
+        title={id}
+        address={state.address}
+        price={state.price}
+        link="/tickets"
+        state={{ title: state.title, address: state.address }}
+        buttonText="Buy ticket"
+      />
     </div>
   );
 };

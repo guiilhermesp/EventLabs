@@ -1,11 +1,12 @@
 import React from "react";
 import Head from "../Helper/Head";
 import styles from "./Events.module.css";
-import { Link } from "react-router-dom";
-import Button from "../Forms/Button";
+import { useLocation } from "react-router-dom";
+import Modal from "../Modal/Modal";
 
 const Events = () => {
-  const eventsMock = [
+  const { state } = useLocation();
+  var eventsList = [
     {
       title: "Formula Drift",
       price: 512,
@@ -23,24 +24,25 @@ const Events = () => {
     { title: "Formula 3000", price: 1012, address: "GRANTSVILLE, UTAH, USA" },
     { title: "Other formula", price: 1012, address: "IRWINDALE, CALIFORNIA" },
   ];
+  const parse = JSON.parse(sessionStorage.getItem("eventsList"));
+  if (parse) eventsList = parse;
+  if (state) eventsList.push(state);
+  const stringified = JSON.stringify(eventsList);
+  sessionStorage.setItem("eventsList", stringified);
 
   return (
     <div className={styles.cards}>
-      <Head title="Home" description="Feed of events" />
-      {eventsMock.map(({ title, price, address }) => {
+      <Head title="Available events" description="Feed of events" />
+      {eventsList.map(({ title, price, address }) => {
         return (
-          <section key={title} className={styles.card}>
-            <div className={styles.content}>
-              <h1>{title}</h1>
-              <p>R$: {price},00</p>
-              <p>{address}</p>
-              <Button>
-                <Link to={`/event/${title}`} params={{ price }}>
-                  Buy ticket
-                </Link>
-              </Button>
-            </div>
-          </section>
+          <Modal
+            title={title}
+            price={price}
+            address={address}
+            link={`/event/${title}`}
+            state={{ price: price, address: address }}
+            buttonText="Event page"
+          />
         );
       })}
     </div>

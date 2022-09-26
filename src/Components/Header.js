@@ -8,11 +8,17 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Link to="/">Events</Link>
+        <Link to="/tickets" className={styles.link}>
+          Tickets
+        </Link>
+        <Link to="/" className={styles.link}>
+          Events
+        </Link>
         {location.pathname === "/" && (
-          <Link to="/registerEvent">Create event</Link>
+          <Link to="/registerEvent" className={styles.link}>
+            Create event
+          </Link>
         )}
-        <Link to="/tickets">Tickets</Link>
       </nav>
     </header>
   );

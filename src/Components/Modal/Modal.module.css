@@ -5,7 +5,6 @@
 
 .card {
   display: flex;
-  background-color: #ebebeb;
   border-radius: 0.5rem;
   width: 14rem;
   height: 18rem;
@@ -14,6 +13,11 @@
   align-content: center;
   align-items: center;
 }
+
+.background {
+  background-color: #ebebeb;
+}
+
 .content {
   display: flex;
   flex-direction: column;
