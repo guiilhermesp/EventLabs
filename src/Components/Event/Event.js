@@ -8,8 +8,6 @@ const Event = () => {
   const { id, price } = useParams();
   const { state } = useLocation();
 
-  console.log(state);
-
   return (
     <div className={styles.content}>
       <Head title="Event" description="Data of an event" />

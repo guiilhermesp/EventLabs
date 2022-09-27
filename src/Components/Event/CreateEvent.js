@@ -9,6 +9,7 @@ const CreateEvent = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [address, setAddress] = useState("");
+  const [type, setType] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -16,6 +17,7 @@ const CreateEvent = () => {
       title: title.target.value,
       price: price.target.value,
       address: address.target.value,
+      type: type.target.value,
     };
     navigate("/", { state: eventBody });
   }
@@ -40,6 +42,12 @@ const CreateEvent = () => {
           type="text"
           name="address"
           onChange={setAddress}
+        />
+        <Input
+          label="Type of event"
+          type="text"
+          name="type"
+          onChange={setType}
         />
         <Button>Create event</Button>
       </form>
