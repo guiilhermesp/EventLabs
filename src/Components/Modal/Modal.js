@@ -12,7 +12,7 @@ const Modal = ({
   buttonText,
   modalStyle = true,
   handleClick,
-  buttonDelete = false,
+  buttonDeleteClick,
   buttonDeleteText,
 }) => {
   return (
@@ -26,14 +26,16 @@ const Modal = ({
         <h1 className={styles.title}>{title}</h1>
         {price && <p>R$: {price},00</p>}
         <p className={styles.address}>{address}</p>
-        <Link to={link} state={state}>
-          <Button className={styles.button} onClick={handleClick}>
-            {buttonText}
-          </Button>
-          {buttonDelete && (
-            <Button onClick={buttonDelete}>{buttonDeleteText}</Button>
+        <div className={styles.multipleButton}>
+          <Link to={link} state={state} className={styles.link}>
+            <Button className={styles.button} onClick={handleClick}>
+              {buttonText}
+            </Button>
+          </Link>
+          {buttonDeleteText && (
+            <Button onClick={buttonDeleteClick}>{buttonDeleteText}</Button>
           )}
-        </Link>
+        </div>
       </div>
     </section>
   );

@@ -6,70 +6,67 @@ import Modal from "../Modal/Modal";
 
 const Events = () => {
   const { state } = useLocation();
-  const [property, setProperty] = useState("title");
-  const sortTypes = {
-    title: "title",
-    price: "price",
-  };
-  const sortProperty = sortTypes[property];
-  var eventsList = [
+  const [eventsList, setEventsList] = useState([
     {
-      title: "Formula Drift",
+      title: "J Drift",
       price: 512,
-      address: "LONG BEACH, CALIFORNIA, USA",
+      address: "jdfgkgkl",
       type: "college",
     },
     {
-      title: "Formula 1",
+      title: "G Drift",
+      price: 125,
+      address: "abcdefg",
+      type: "college",
+    },
+    {
+      title: "B 1",
       price: 32,
       address: "ATLANTA, GEORGIA, USA",
       type: "business",
     },
     {
-      title: "Formula Indy",
-      price: 123,
-      address: "ORLANDO, FLORIDA, USA",
-      type: "college",
-    },
-    {
-      title: "Formula 2",
-      price: 752,
-      address: "ENGLISHTOWN, NEW JERSEY, USA",
+      title: "C 1",
+      price: 32,
+      address: "ATLANTA, GEORGIA, USA",
       type: "business",
     },
-    {
-      title: "Formula 3",
-      price: 45,
-      address: "ST. LOUIS, MISSOURI, USA",
-      type: "college",
-    },
-    {
-      title: "Formula 4",
-      price: 49,
-      address: "MONROE, WASHINGTON, USA",
-      type: "business",
-    },
-    {
-      title: "Formula 3000",
-      price: 12,
-      address: "GRANTSVILLE, UTAH, USA",
-      type: "business",
-    },
-    {
-      title: "Other formula",
-      price: 54,
-      address: "IRWINDALE, CALIFORNIA",
-      type: "college",
-    },
-  ];
+  ]);
+
+  function handleDelete(title) {
+    var newList = eventsList.filter((ticket) => {
+      if (ticket.title !== title) return ticket;
+    });
+    setEventsList(newList);
+  }
+
+  function handleFilter(option) {
+    if (option == "price") {
+      setEventsList([].concat(eventsList).sort((a, b) => b.price - a.price));
+    } else {
+      setEventsList(
+        [].concat(eventsList).sort(function (a, b) {
+          if (a.title < b.title) {
+            return -1;
+          }
+          if (a.title > b.title) {
+            return 1;
+          }
+          return 0;
+        })
+      );
+    }
+  }
 
   useEffect(() => {
     const parse = JSON.parse(sessionStorage.getItem("eventsList"));
-    if (parse) eventsList = parse;
-    if (state) eventsList.push(state);
+    if (parse) setEventsList(parse);
+    if (state) {
+      setEventsList((element) => element.concat(state));
+    }
     const stringified = JSON.stringify(eventsList);
     sessionStorage.setItem("eventsList", stringified);
-  }, [eventsList]);
+  }, []);
 
   return (
     <div className={styles.cards}>
@@ -77,26 +74,27 @@ const Events = () => {
       <div className={styles.cardSelect}>
         <select
           className={styles.select}
-          onChange={(option) => setProperty(option.target.value)}
+          onChange={(option) => handleFilter(option.target.value)}
         >
           <option value="title">Title</option>
           <option value="price">Price</option>
         </select>
       </div>
-      {eventsList
-        .sort((a, b) => b[sortProperty] - a[sortProperty])
-        .map(({ title, price, address }) => {
-          return (
-            <Modal
-              title={title}
-              price={price}
-              address={address}
-              link={`/event/${title}`}
-              state={{ price: price, address: address }}
-              buttonText="Event page"
-            />
-          );
-        })}
+      {eventsList.map(({ title, price, address }) => {
+        return (
+          <Modal
+            key={title}
+            title={title}
+            price={price}
+            address={address}
+            link={`/event/${title}`}
+            state={{ price: price, address: address }}
+            buttonText="Event page"
+            buttonDeleteText="Cancel event"
+            buttonDeleteClick={() => handleDelete(title)}
+          />
+        );
+      })}
     </div>
   );
 };
