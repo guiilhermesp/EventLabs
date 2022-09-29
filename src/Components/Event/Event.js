@@ -7,6 +7,7 @@ import Head from "../Helper/Head";
 const Event = () => {
   const { id, price } = useParams();
   const { state } = useLocation();
+  console.log("state", state);
 
   return (
     <div className={styles.content}>

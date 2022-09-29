@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./CreateEvent.module.css";
 import Button from "../Forms/Button";
@@ -10,6 +10,7 @@ const CreateEvent = () => {
   const [price, setPrice] = useState("");
   const [address, setAddress] = useState("");
   const [type, setType] = useState("");
+  const id = useId();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -18,6 +19,7 @@ const CreateEvent = () => {
       price: price.target.value,
       address: address.target.value,
       type: type.target.value,
+      id: id,
     };
     navigate("/", { state: eventBody });
   }
